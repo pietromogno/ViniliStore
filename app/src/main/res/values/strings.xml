@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ViniliStore</string>
+    <string name="name">Name</string>
+    <string name="login">Login</string>
+    <string name="registrati">REGISTRATI</string>
+    <string name="benvenuto_su">Benvenuto su</string>
+    <string name="logo">logo</string>
+    <string name="textview">TextView</string>
+</resources>
