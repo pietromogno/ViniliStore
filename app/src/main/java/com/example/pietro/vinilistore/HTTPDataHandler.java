@@ -17,7 +17,7 @@ public class HTTPDataHandler {
 
     public HTTPDataHandler(){}
 
-    public void GetHTTPData(String urlString){
+    public String GetHTTPData(String urlString){
         try{
             URL url = new URL(urlString);
             HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
@@ -45,6 +45,7 @@ public class HTTPDataHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return stream;
     }
 
     public void PostHTTPData(String urlString,String json){

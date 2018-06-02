@@ -43,7 +43,11 @@ public class CustomAdapter extends BaseAdapter{
         View v = inflater.inflate(R.layout.custom_layout,null);
         TextView mTextView = v.findViewById(R.id.titolo);
         ImageView mImageView = v.findViewById(R.id.imageView);
-        mImageView.setImageResource(lstProdotti.indexOf(position)); //forse? prova commit
+        mImageView.setImageResource(lstProdotti.indexOf(position));
+        mTextView.setText(lstProdotti.indexOf(position));
+
+
+
         return null;
     }
 }

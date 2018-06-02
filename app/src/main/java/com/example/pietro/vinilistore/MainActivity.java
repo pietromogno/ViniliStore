@@ -13,6 +13,14 @@ Button btnLogin , btnRegistrati;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent home = new Intent(view.getContext(),StoreHome.class);
+                startActivity(home);
+            }
+        });
+
         btnRegistrati = (Button) findViewById(R.id.btnRegistrati);
         btnRegistrati.setOnClickListener(new View.OnClickListener() {
         @Override
