@@ -1,12 +1,15 @@
 package com.example.pietro.vinilistore;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -81,6 +84,25 @@ public class HTTPDataHandler {
             e.printStackTrace();
         }
     }
+
+    public void postData(String urlString,String json) {
+            OutputStream out = null;
+            try {
+                URL url = new URL(urlString);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                out = new BufferedOutputStream(urlConnection.getOutputStream());
+                BufferedWriter writer = new BufferedWriter (new OutputStreamWriter(out, "UTF-8"));
+                writer.write(json);
+                writer.flush();
+                writer.close();
+                out.close();
+                urlConnection.connect();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+
 
     public void PutHTTPData (String urlString,String newValue){
         try{
