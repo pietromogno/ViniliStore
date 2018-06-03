@@ -21,7 +21,7 @@ public class CustomAdapter extends BaseAdapter{
     private Context mContext;
     private List<Prodotto> lstProdotti;
     ImageView mImageView;
-    TextView mTextView;
+    TextView mTextView,mTextPrezzo;
     Bitmap bitM;
 
     public CustomAdapter(Context mContext, List<Prodotto> lstProdotti) {
@@ -49,10 +49,11 @@ public class CustomAdapter extends BaseAdapter{
         LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.custom_layout,null);
         mTextView = v.findViewById(R.id.titolo);
+        mTextPrezzo = v.findViewById(R.id.txtPrezzo);
         mImageView = v.findViewById(R.id.imageView);
         new GetImageFromURL(mImageView).execute(lstProdotti.get(position).getUrlFoto());
-        //mImageView.setImageResource();
         mTextView.setText(lstProdotti.get(position).getNomeProdotto());
+        mTextPrezzo.setText(lstProdotti.get(position).getPrezzo()+"€");
         return v;
     }
 

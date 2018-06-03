@@ -26,7 +26,7 @@ public class StoreHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_home);
-        lstView =(ListView)findViewById(R.id.listProd);
+        lstView =findViewById(R.id.listProd);
 
         new GetData().execute(Common.getAddressAPIProdotti());
     }

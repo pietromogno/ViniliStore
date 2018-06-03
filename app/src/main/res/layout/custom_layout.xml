@@ -19,7 +19,18 @@
     <TextView
         android:id="@+id/titolo"
         android:layout_width="258dp"
-        android:layout_height="80dp"
+        android:layout_height="37dp"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/txtPrezzo"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/titolo"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="61dp"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold" />
 </RelativeLayout>
