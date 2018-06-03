@@ -2,14 +2,18 @@ package com.example.pietro.vinilistore;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+
+import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 
 public class HTTPDataHandler {
 
@@ -49,15 +53,16 @@ public class HTTPDataHandler {
     }
 
     public void PostHTTPData(String urlString,String json){
+
         try{
             URL url = new URL(urlString);
             HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+
                 urlConnection.setRequestMethod("POST");
-                urlConnection.setDoOutput(true);
+                // urlConnection.setDoOutput(true);
 
                 byte[] out = json.getBytes(StandardCharsets.UTF_8);
                 int lenght = out.length;
-
                 urlConnection.setFixedLengthStreamingMode(lenght);
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTP-8");
                 urlConnection.connect();
@@ -65,8 +70,12 @@ public class HTTPDataHandler {
                     os.write(out);
                 }
 
-            InputStream response = urlConnection.getInputStream();
+        InputStream response=urlConnection.getInputStream();
+        response.close();
+
         } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e){
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

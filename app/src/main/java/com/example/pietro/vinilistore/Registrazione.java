@@ -67,7 +67,7 @@ public class Registrazione extends AppCompatActivity {
         protected String doInBackground(String... args) {
             String urlString = args[0];
             HTTPDataHandler http= new HTTPDataHandler();
-            String json = "{\"nome\" : \""+nome+"\"cognome\" : \""+cognome+"\"email\" : \""+email+"\"password\" : \""+psw+"\"indirizzo\" : \""+indirizzo+"}";
+            String json = "{\"nome\" : \""+nome+"\",\"cognome\" : \""+cognome+"\",\"email\" : \""+email+"\",\"password\" : \""+psw+"\",\"indirizzo\" : \""+indirizzo+"\"}";
             http.PostHTTPData(urlString,json);
             return "";
         }
