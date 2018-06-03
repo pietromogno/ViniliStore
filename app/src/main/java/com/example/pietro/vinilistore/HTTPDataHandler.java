@@ -52,20 +52,19 @@ public class HTTPDataHandler {
         try{
             URL url = new URL(urlString);
             HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setDoOutput(true);
 
-            urlConnection.setRequestMethod("POST");
-            urlConnection.setDoOutput(true);
+                byte[] out = json.getBytes(StandardCharsets.UTF_8);
+                int lenght = out.length;
 
-            byte[] out = json.getBytes(StandardCharsets.UTF_8);
-            int lenght = out.length;
+                urlConnection.setFixedLengthStreamingMode(lenght);
+                urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTP-8");
+                urlConnection.connect();
+                try (OutputStream os = urlConnection.getOutputStream()) {
+                    os.write(out);
+                }
 
-            urlConnection.setFixedLengthStreamingMode(lenght);
-            urlConnection.setRequestProperty("Content-Type","application/json; charset=UTP-8");
-            urlConnection.connect();
-            try(OutputStream os = urlConnection.getOutputStream())
-            {
-                os.write(out);
-            }
             InputStream response = urlConnection.getInputStream();
         } catch (MalformedURLException e) {
             e.printStackTrace();

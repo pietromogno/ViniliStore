@@ -3,7 +3,9 @@ package com.example.pietro.vinilistore.MongoDB.Utente;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Utente {
+import java.io.Serializable;
+
+public class Utente implements Serializable{
 
     @SerializedName("_id")
     @Expose

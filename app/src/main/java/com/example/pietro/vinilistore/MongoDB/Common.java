@@ -6,7 +6,7 @@ import com.example.pietro.vinilistore.MongoDB.Utente.Utente;
 public class Common {
 
     private static String DB_NAME = "vinili_store_db";
-    public static String API_KEY="Rw5adcu9y5CRmv-9PxzKE6kCi2JPuRyD";
+    public static String API_KEY="14ZzrPuEGHMnvICk0z00LfGFDiRkoL0r";    //key per pietro_mogno
 
     public static String getAddressSingle(Utente utente){
         String baseUrl = String.format("https://api.mlab.com/api/1/databases/%s/collections/%s",DB_NAME,"UTENTI");
