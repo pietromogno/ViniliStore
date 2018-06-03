@@ -57,35 +57,6 @@ public class CustomAdapter extends BaseAdapter{
         return v;
     }
 
-    public class GetImageFromURL extends AsyncTask<String,Void,Bitmap>{
-
-        ImageView imgView;
-
-        public GetImageFromURL(ImageView imgV){
-            this.imgView=  imgV;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... url) {
-            String myURL=url[0];
-            bitM = null;
-            try{
-                InputStream srt = new java.net.URL(myURL).openStream();
-                bitM = BitmapFactory.decodeStream(srt);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            return bitM;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap btmp){
-            super.onPostExecute(btmp);
-            imgView.setImageBitmap(btmp);
-        }
-
-
-    }
 }
 
 

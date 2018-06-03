@@ -3,11 +3,13 @@ package com.example.pietro.vinilistore.MongoDB.Prodotto;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Prodotto {
+import java.io.Serializable;
+
+public class Prodotto implements Serializable {
 
     @SerializedName("_id")
     @Expose
-    private com.example.pietro.vinilistore.MongoDB.Prodotto.Id id;
+    private transient com.example.pietro.vinilistore.MongoDB.Prodotto.Id id;
 
     @SerializedName("nomeProdotto")
     @Expose
