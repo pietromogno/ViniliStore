@@ -19,7 +19,7 @@ import java.util.List;
 public class StoreHome extends AppCompatActivity {
 
     ListView lstView;
-    Prodotto[] prodotti ;
+    List<Prodotto> prodotti ;
 
 
     @Override
@@ -58,9 +58,10 @@ public class StoreHome extends AppCompatActivity {
 
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Prodotto>>(){}.getType();
-            prodotti =gson.fromJson(s,Prodotto[].class);    //listType
-            List<Prodotto> lp = new ArrayList<>(Arrays.asList(prodotti));   //non c'era
-            CustomAdapter adapter = new CustomAdapter(getApplicationContext(),lp);  //rimettere prodotti
+            prodotti =gson.fromJson(s,listType);    //listType
+
+            System.out.println(prodotti.toString());
+            CustomAdapter adapter = new CustomAdapter(getApplicationContext(),prodotti);
             lstView.setAdapter(adapter);
             pd.dismiss();
         }
