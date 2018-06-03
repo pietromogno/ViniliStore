@@ -35,11 +35,10 @@ public class StoreHome extends AppCompatActivity {
 
     class GetData extends AsyncTask<String,Void,String>{
         ProgressDialog pd= new ProgressDialog(StoreHome.this);
-
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            pd.setTitle("Caricamento..");
+            pd.setTitle("Caricamento...");
             pd.show();
         }
 
@@ -55,12 +54,9 @@ public class StoreHome extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s){
             super.onPostExecute(s);
-
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Prodotto>>(){}.getType();
-            prodotti =gson.fromJson(s,listType);    //listType
-
-            System.out.println(prodotti.toString());
+            prodotti =gson.fromJson(s,listType);
             CustomAdapter adapter = new CustomAdapter(getApplicationContext(),prodotti);
             lstView.setAdapter(adapter);
             pd.dismiss();

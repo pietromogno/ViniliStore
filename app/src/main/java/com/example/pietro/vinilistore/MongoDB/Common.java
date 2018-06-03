@@ -15,7 +15,7 @@ public class Common {
         return stringBuilder.toString();
     }
     public static String getAddressAPIUtenti(){
-        String baseUrl = String.format("https://api.mlab.com/api/1/databases/%s/collections/%s",DB_NAME,"UTENTI");
+        String baseUrl = String.format("https://api.mlab.com/api/1/databases/%s/collections/%s",DB_NAME,".UTENTI");
         StringBuilder stringBuilder = new StringBuilder(baseUrl);
         stringBuilder.append("?apiKey="+API_KEY);
         return stringBuilder.toString();

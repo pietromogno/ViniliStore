@@ -16,6 +16,10 @@ Button btnLogin , btnRegistrati;
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //controlli sul login email e password da fare
+
+
                 Intent home = new Intent(view.getContext(),StoreHome.class);
                 startActivity(home);
             }

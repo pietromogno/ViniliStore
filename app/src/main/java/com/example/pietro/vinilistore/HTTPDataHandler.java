@@ -17,7 +17,7 @@ public class HTTPDataHandler {
 
     public HTTPDataHandler(){}
 
-    public String GetHTTPData(String urlString){
+    public String GetHTTPData(String urlString) {
         try{
             URL url = new URL(urlString);
             HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
@@ -67,7 +67,6 @@ public class HTTPDataHandler {
                 os.write(out);
             }
             InputStream response = urlConnection.getInputStream();
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
