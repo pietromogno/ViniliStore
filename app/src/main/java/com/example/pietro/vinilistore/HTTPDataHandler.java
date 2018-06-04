@@ -72,8 +72,8 @@ public class HTTPDataHandler {
         try( DataOutputStream wr = new DataOutputStream( conn.getOutputStream())) {
             wr.write( postData );
         }
-        //int i = conn.getResponseCode();
-        //System.out.println(i);
+        int i = conn.getResponseCode();
+        System.out.println(i);
     }
 
 

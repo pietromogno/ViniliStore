@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class Registrazione extends AppCompatActivity {
 
-    TextView txtNome,txtCognome,txtIndirizzo,txtEmail,txtPsw,txtPsw2;
+    TextView txtNome,txtCognome,txtIndirizzo,txtEmail,txtPsw;
     Button btnRegistati;
 
     @Override
@@ -28,14 +28,11 @@ public class Registrazione extends AppCompatActivity {
         txtIndirizzo = findViewById(R.id.txtIndirizzo);
         txtEmail = findViewById(R.id.txtEmail);
         txtPsw = findViewById(R.id.txtPsw);
-        txtPsw2 = findViewById(R.id.txtPsw2);
         btnRegistati = findViewById(R.id.btnReg);
 
         btnRegistati.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //controlli sul login email e password da fare
             String nome=txtNome.getText().toString(),cognome=txtCognome.getText().toString(),indirizzo=txtIndirizzo.getText().toString(),email=txtEmail.getText().toString(),psw=txtPsw.getText().toString();
             new PostData(nome,cognome,indirizzo,email,psw).execute(Common.getAddressAPIUtenti());
                 Intent home = new Intent(view.getContext(),StoreHome.class);
