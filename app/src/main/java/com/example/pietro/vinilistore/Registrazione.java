@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.example.pietro.vinilistore.MongoDB.Common;
 
+import java.io.IOException;
+
 public class Registrazione extends AppCompatActivity {
 
     TextView txtNome,txtCognome,txtIndirizzo,txtEmail,txtPsw,txtPsw2;
@@ -68,7 +70,11 @@ public class Registrazione extends AppCompatActivity {
             String urlString = args[0];
             HTTPDataHandler http= new HTTPDataHandler();
             String json = "{\"nome\" : \""+nome+"\",\"cognome\" : \""+cognome+"\",\"email\" : \""+email+"\",\"password\" : \""+psw+"\",\"indirizzo\" : \""+indirizzo+"\"}";
-            http.postData(urlString,json);
+            try {
+                http.post(urlString,json);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return "";
         }
 

@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,20 +62,14 @@ public class HTTPDataHandler {
             URL url = new URL(urlString);
             HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
 
-                urlConnection.setRequestMethod("POST");
-                // urlConnection.setDoOutput(true);
-
-                byte[] out = json.getBytes(StandardCharsets.UTF_8);
-                int lenght = out.length;
-                urlConnection.setFixedLengthStreamingMode(lenght);
+                urlConnection.setRequestMethod("PUT");
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTP-8");
-                urlConnection.connect();
-                try (OutputStream os = urlConnection.getOutputStream()) {
-                    os.write(out);
-                }
+                urlConnection.setDoOutput(true);
+            DataOutputStream dataOutputStream= new DataOutputStream(urlConnection.getOutputStream());
+            dataOutputStream.writeBytes(json);
+            dataOutputStream.flush();
+            dataOutputStream.close();
 
-        InputStream response=urlConnection.getInputStream();
-        response.close();
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -101,6 +96,27 @@ public class HTTPDataHandler {
                 System.out.println(e.getMessage());
             }
         }
+
+    public void post (String urlString,String json) throws IOException {
+        String urlParameters  = json;
+        byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
+        int    postDataLength = postData.length;
+        String request        = urlString;
+        URL    url            = new URL( request );
+        HttpURLConnection conn= (HttpURLConnection) url.openConnection();
+        conn.setDoOutput( true );
+        conn.setInstanceFollowRedirects( false );
+        conn.setRequestMethod( "POST" );
+        conn.setRequestProperty("data",json);
+        conn.setRequestProperty( "Content-Type", "application/json");
+        conn.setRequestProperty( "charset", "utf-8");
+        conn.setUseCaches( false );
+        int i = conn.getResponseCode();
+        System.out.println(i);
+        try( DataOutputStream wr = new DataOutputStream( conn.getOutputStream())) {
+            wr.write( postData );
+        }
+    }
 
 
 
@@ -157,4 +173,8 @@ public class HTTPDataHandler {
             e.printStackTrace();
         }
     }
+
+
+
+
 }
