@@ -1,5 +1,8 @@
 package com.example.pietro.vinilistore;
 
+import com.example.pietro.vinilistore.MongoDB.Utente.Utente;
+import com.google.gson.Gson;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -57,10 +60,10 @@ public class HTTPDataHandler {
     }
 
     public void PostHTTPData (String urlString,String json) throws IOException {
-        String urlParameters  = json;
-        byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
-        String request        = urlString;
-        URL    url            = new URL( request );
+        String urlParameters = json;
+        byte[] postData = urlParameters.getBytes( StandardCharsets.UTF_8 );
+        String request = urlString;
+        URL url = new URL( request );
         HttpURLConnection conn= (HttpURLConnection) url.openConnection();
         conn.setDoOutput( true );
         conn.setInstanceFollowRedirects( false );
@@ -76,6 +79,41 @@ public class HTTPDataHandler {
         System.out.println(i);
     }
 
+
+    public Utente getPersonaFromEmail (String urlString , String query) {
+        Utente utente=new Utente();
+        Gson gson = new Gson();
+        try {
+            URL url = new URL(urlString+query);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+            //controllo stato connessione
+            if (urlConnection.getResponseCode() == 200) {
+                //codice risposta = 200 ===> connessione ok
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+
+                //lettura del BufferedInputStream
+                BufferedReader r = new BufferedReader(new InputStreamReader(in));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = r.readLine()) != null)
+                    sb.append(line);
+                stream = sb.toString();
+                String subStream = stream.substring(1, stream.length()-2);
+                urlConnection.disconnect();
+                utente = gson.fromJson(subStream,Utente.class);
+
+            } else {
+
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return utente;
+    }
 
 
     public void PutHTTPData (String urlString,String newValue){
