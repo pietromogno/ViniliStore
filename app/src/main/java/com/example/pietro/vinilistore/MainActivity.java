@@ -1,6 +1,7 @@
 package com.example.pietro.vinilistore;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -32,13 +33,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = tEmail.getText().toString();
                 String password = tPsw.getText().toString();
-                Login L  = (Login) new Login(email, password).execute(Common.getAddressAPIUtenti());
-                //if (L.logOK==true) {
-                //    Intent home = new Intent(view.getContext(), StoreHome.class);
-                  //  startActivity(home);
-                //}else{
-                  //  Toast.makeText(getApplicationContext(),"username o password errate",20);
-                //}
+                new Login(email,password).execute(Common.getAddressAPIUtenti());
             }
         });
 
@@ -57,46 +52,42 @@ public class MainActivity extends AppCompatActivity {
         ProgressDialog pd = new ProgressDialog(MainActivity.this);
         String email, psw;
         Utente u;
-        boolean logOK;
+
 
         public Login(String email, String psw) {
             this.email = email;
             this.psw = psw;
+
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //pd.setTitle("Login...");
-            //pd.show();
+            pd.setTitle("Login...");
+            pd.show();
         }
 
         @Override
         protected String doInBackground(String... args) {
-
             String urlString = args[0];
             HTTPDataHandler http = new HTTPDataHandler();
             String json = "&q={\"email\" : \"" + email + "\"}";
-
-                u = http.getPersonaFromEmail(urlString, json);
-            //if(u.getPassword()==psw){
-            //    Intent home = new Intent(getApplicationContext(), StoreHome.class);
-            //    startActivity(home);
-         //   }else if(u==null || u.getPassword()!=psw){
-          //      Toast.makeText(getApplicationContext(),"username o password errate",20);
-       //  }
-
+            u = http.getPersonaFromEmail(urlString, json);
             return "";
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(u.getPassword()==psw) {
-                Intent home = new Intent(getApplicationContext(), StoreHome.class);
+            pd.dismiss();
+            if (u==null || !u.getPassword().equals(psw)) {
+                Toast t = Toast.makeText(getApplicationContext(),"username o password errate", Toast.LENGTH_SHORT);
+                t.show();
+            } else if (u.getPassword().equals(psw)) {
+                Intent home = new Intent();
+                home.setClass(getApplicationContext(), StoreHome.class);
                 startActivity(home);
             }
         }
-
     }
 }
