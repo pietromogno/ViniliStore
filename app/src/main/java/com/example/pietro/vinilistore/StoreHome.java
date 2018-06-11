@@ -14,7 +14,6 @@ import android.widget.ListView;
 
 import com.example.pietro.vinilistore.MongoDB.Common;
 import com.example.pietro.vinilistore.MongoDB.Prodotto.Prodotto;
-import com.example.pietro.vinilistore.MongoDB.Utente.Utente;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -57,7 +56,7 @@ public class StoreHome extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_cart:
-                Intent cart = new Intent(getApplicationContext(),Carrello.class);
+                Intent cart = new Intent(getApplicationContext(),ViewCarrello.class);
                 startActivity(cart);
                 return true;
             case R.id.action_profile:

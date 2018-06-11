@@ -47,6 +47,7 @@ public class CustomAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         View v = inflater.inflate(R.layout.custom_layout,null);
         mTextView = v.findViewById(R.id.titolo);
         mTextPrezzo = v.findViewById(R.id.txtPrezzo);

@@ -1,5 +1,7 @@
 package com.example.pietro.vinilistore;
 
+import com.example.pietro.vinilistore.MongoDB.Carrello.Carrello;
+import com.example.pietro.vinilistore.MongoDB.Prodotto.Prodotto;
 import com.example.pietro.vinilistore.MongoDB.Utente.Utente;
 import com.google.gson.Gson;
 
@@ -57,6 +59,79 @@ public class HTTPDataHandler {
             e.printStackTrace();
         }
         return stream;
+    }
+
+    public Carrello GetHTTPDataCarrello(String urlString, String idUtente){
+        stream="";
+        Carrello carrello = new Carrello();
+        String query = "&q={\"idUtente\" : \"" + idUtente + "\"}";
+        Gson gson = new Gson();
+        try {
+            URL url = new URL(urlString+query);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+            //controllo stato connessione
+            if (urlConnection.getResponseCode() == 200) {
+                //codice risposta = 200 ===> connessione ok
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+
+                //lettura del BufferedInputStream
+                BufferedReader r = new BufferedReader(new InputStreamReader(in));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = r.readLine()) != null)
+                    sb.append(line);
+                 stream = sb.toString();
+                String subStream = stream.substring(1, stream.length()-2);
+                urlConnection.disconnect();
+                carrello = gson.fromJson(subStream,Carrello.class);
+
+            } else {
+
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return carrello;
+    }
+
+    public static Prodotto GetProdottoFromID(String urlString, String idProdotto){
+        Prodotto p = new Prodotto();
+        String query = "&q={\"_id\":{\"$oid\":\""+ idProdotto + "\"}}";
+        Gson gson = new Gson();
+        try {
+            URL url = new URL(urlString+query);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+            //controllo stato connessione
+            if (urlConnection.getResponseCode() == 200) {
+                //codice risposta = 200 ===> connessione ok
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+
+                //lettura del BufferedInputStream
+                BufferedReader r = new BufferedReader(new InputStreamReader(in));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = r.readLine()) != null)
+                    sb.append(line);
+                stream = sb.toString();
+                String subStream = stream.substring(1, stream.length()-2);
+                urlConnection.disconnect();
+                p = gson.fromJson(subStream,Prodotto.class);
+                System.out.println(p);
+            } else {
+
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return p;
     }
 
     public void PostHTTPData (String urlString,String json) throws IOException {

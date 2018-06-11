@@ -1,5 +1,6 @@
 package com.example.pietro.vinilistore.MongoDB;
 
+import com.example.pietro.vinilistore.MongoDB.Carrello.Carrello;
 import com.example.pietro.vinilistore.MongoDB.Prodotto.Prodotto;
 import com.example.pietro.vinilistore.MongoDB.Utente.Utente;
 
@@ -21,8 +22,6 @@ public class Common {
         return stringBuilder.toString();
     }
 
-
-
     public static String getAddressSingle(Prodotto prodotto){
         String baseUrl = String.format("https://api.mlab.com/api/1/databases/%s/collections/%s",DB_NAME,"PRODOTTI");
         StringBuilder stringBuilder = new StringBuilder(baseUrl);
@@ -31,6 +30,19 @@ public class Common {
     }
     public static String getAddressAPIProdotti(){
         String baseUrl = String.format("https://api.mlab.com/api/1/databases/%s/collections/%s",DB_NAME,"PRODOTTI");
+        StringBuilder stringBuilder = new StringBuilder(baseUrl);
+        stringBuilder.append("?apiKey="+API_KEY);
+        return stringBuilder.toString();
+    }
+
+    public static String getAddressSingle(Carrello carrello){
+        String baseUrl = String.format("https://api.mlab.com/api/1/databases/%s/collections/%s",DB_NAME,"CARRELLO");
+        StringBuilder stringBuilder = new StringBuilder(baseUrl);
+        stringBuilder.append("/"+carrello.getId().get$oid()+"?apiKey="+API_KEY);
+        return stringBuilder.toString();
+    }
+    public static String getAddressAPICarrello(){
+        String baseUrl = String.format("https://api.mlab.com/api/1/databases/%s/collections/%s",DB_NAME,"CARRELLO");  //https://api.mlab.com/api/1/databases/
         StringBuilder stringBuilder = new StringBuilder(baseUrl);
         stringBuilder.append("?apiKey="+API_KEY);
         return stringBuilder.toString();
