@@ -15,6 +15,8 @@ import com.example.pietro.vinilistore.MongoDB.Common;
 import com.example.pietro.vinilistore.MongoDB.Utente.Utente;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     Button btnLogin, btnRegistrati;
@@ -26,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         tEmail = findViewById(R.id.userEmail);
         tPsw = findViewById(R.id.userPassword);
-
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +87,14 @@ public class MainActivity extends AppCompatActivity {
             } else if (u.getPassword().equals(psw)) {
                 Intent home = new Intent();
                 home.setClass(getApplicationContext(), StoreHome.class);
+                Bundle b = new Bundle();
+                ArrayList<String> dati=new ArrayList<>();
+                dati.add(u.getNome()+ " "+u.getCognome());
+                dati.add(u.getEmail());
+                dati.add(u.getIndirizzo());
+                dati.add(""+ u.getId());
+                b.putSerializable("utente",dati); // porto nella home page l' utente loggato
+                home.putExtras(b);
                 startActivity(home);
             }
         }
