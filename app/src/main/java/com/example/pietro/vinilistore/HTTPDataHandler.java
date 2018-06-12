@@ -64,7 +64,7 @@ public class HTTPDataHandler {
     public Carrello GetHTTPDataCarrello(String urlString, String idUtente){
         stream="";
         Carrello carrello = new Carrello();
-        String query = "&q={\"idUtente\" : \"" + idUtente + "\"}";
+        String query = "&q={\"idUtente\":\""+idUtente+"\"}";
         Gson gson = new Gson();
         try {
             URL url = new URL(urlString+query);
@@ -87,7 +87,7 @@ public class HTTPDataHandler {
                 carrello = gson.fromJson(subStream,Carrello.class);
 
             } else {
-
+                carrello = null;
             }
 
         } catch (MalformedURLException e) {

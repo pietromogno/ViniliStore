@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 dati.add(u.getNome()+ " "+u.getCognome());
                 dati.add(u.getEmail());
                 dati.add(u.getIndirizzo());
-                dati.add(""+ u.getId());
+                dati.add(""+u.getId().get$oid());
                 b.putSerializable("utente",dati); // porto nella home page l' utente loggato
                 home.putExtras(b);
                 startActivity(home);

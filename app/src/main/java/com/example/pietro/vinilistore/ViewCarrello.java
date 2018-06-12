@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pietro.vinilistore.MongoDB.Carrello.Carrello;
 import com.example.pietro.vinilistore.MongoDB.Common;
@@ -23,7 +24,7 @@ public class ViewCarrello extends AppCompatActivity {
 
     Button ordina;
     TextView totale;
-    String idUtente = "5b09a8dffb6fc0292d6ed802"; //da passare con il boundle
+    String idUtente; //da passare con il boundle = "5b09a8dffb6fc0292d6ed802"
     ListView lstView;
     Carrello c;
 
@@ -33,6 +34,8 @@ public class ViewCarrello extends AppCompatActivity {
         setContentView(R.layout.activity_carrello);
         totale = findViewById(R.id.totale);
         lstView = findViewById(R.id.personalCart);
+        Bundle bundleObject = getIntent().getExtras();
+        idUtente = bundleObject.getString("idUtente");
         new GetData().execute(Common.getAddressAPICarrello());
     }
 
@@ -66,24 +69,30 @@ public class ViewCarrello extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            CustomAdapter adapter = new CustomAdapter(getApplicationContext(), prodotti);
-            lstView.setAdapter(adapter);
+            if (prodotti != null) {    //se l' utente corrente non ha un carrello non creo l' adapter
+                CustomAdapter adapter = new CustomAdapter(getApplicationContext(), prodotti);
+                lstView.setAdapter(adapter);
+            }
             int tot = 0;
             for (int i = 0; i < prodotti.size(); i++) {
                 tot += prodotti.get(i).getPrezzo();
             }
-            totale.setText(tot + "€");
+            totale.setText(tot + "€");  //se vuoto segna 0 euro
             pd.dismiss();
+            Toast t = Toast.makeText(getApplicationContext(), "Il tuo carrello è vuoto", Toast.LENGTH_SHORT);     //segnalo che il carrello è vuoto
+            t.show();
         }
     }
 
     public static List<Prodotto> fromCarrelloToProdotti(Carrello c) {
         String urlString = Common.getAddressAPIProdotti();
         List<Prodotto> ris = new ArrayList<>();
-        String[] ca = c.getIdProdotto();
-        for (int i = 0; i < ca.length; i++) {
-            Prodotto p = HTTPDataHandler.GetProdottoFromID(urlString, ca[i]);
-            ris.add(p);
+        if (c != null) {       //controllo se esiste un carrello per l' utente corrente
+            String[] ca = c.getIdProdotto();
+            for (int i = 0; i < ca.length; i++) {
+                Prodotto p = HTTPDataHandler.GetProdottoFromID(urlString, ca[i]);
+                ris.add(p);
+            }
         }
         return ris;
     }

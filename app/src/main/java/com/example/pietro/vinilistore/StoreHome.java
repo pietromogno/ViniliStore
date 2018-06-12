@@ -11,7 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.pietro.vinilistore.MongoDB.Carrello.Carrello;
 import com.example.pietro.vinilistore.MongoDB.Common;
 import com.example.pietro.vinilistore.MongoDB.Prodotto.Prodotto;
 import com.google.gson.Gson;
@@ -55,10 +57,20 @@ public class StoreHome extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.action_cart:
-                Intent cart = new Intent(getApplicationContext(),ViewCarrello.class);
-                startActivity(cart);
-                return true;
+                Bundle bundleObj = getIntent().getExtras();
+                u = bundleObj.getStringArrayList("utente");
+
+                    Intent cart = new Intent(getApplicationContext(), ViewCarrello.class);
+                    Bundle d = new Bundle();
+                    String id = u.get(3);
+                    d.putSerializable("idUtente", id);     // porto nell' carrello l' ID utente loggato
+                    cart.putExtras(d);
+                    startActivity(cart);
+
+                    return true;
+
             case R.id.action_profile:
                 Intent personal = new Intent(getApplicationContext(),AreaPersonale.class);
                 Bundle bundleObject = getIntent().getExtras();
