@@ -35,7 +35,7 @@ public class Registrazione extends AppCompatActivity {
             public void onClick(View view) {
             String nome=txtNome.getText().toString(),cognome=txtCognome.getText().toString(),indirizzo=txtIndirizzo.getText().toString(),email=txtEmail.getText().toString(),psw=txtPsw.getText().toString();
             new PostData(nome,cognome,indirizzo,email,psw).execute(Common.getAddressAPIUtenti());
-                Intent home = new Intent(view.getContext(),StoreHome.class);
+                Intent home = new Intent(view.getContext(),MainActivity.class);
                 startActivity(home);
             }
         });
@@ -78,7 +78,9 @@ public class Registrazione extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s){
             super.onPostExecute(s);
+            pd.setTitle("Ora effettua il login");
             pd.dismiss();
+
         }
 
     }

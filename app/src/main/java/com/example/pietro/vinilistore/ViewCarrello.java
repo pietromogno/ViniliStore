@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,11 +33,14 @@ public class ViewCarrello extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrello);
+        ordina= findViewById(R.id.btnOrdina);
         totale = findViewById(R.id.totale);
         lstView = findViewById(R.id.personalCart);
         Bundle bundleObject = getIntent().getExtras();
         idUtente = bundleObject.getString("idUtente");
         new GetData().execute(Common.getAddressAPICarrello());
+
+
     }
 
 
@@ -83,6 +87,12 @@ public class ViewCarrello extends AppCompatActivity {
                 Toast t = Toast.makeText(getApplicationContext(), "Il tuo carrello è vuoto", Toast.LENGTH_SHORT);     //segnalo che il carrello è vuoto
                 t.show();
             }
+            ordina.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new OrdinaCarrello();
+                }
+            });
         }
     }
 
@@ -99,5 +109,32 @@ public class ViewCarrello extends AppCompatActivity {
         return ris;
     }
 
+    class OrdinaCarrello extends AsyncTask<String, Void, String> {
+
+        ProgressDialog pd = new ProgressDialog(ViewCarrello.this);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd.setTitle("Invio Ordine...");
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(String... args) {
+            String stream = null;
+            String urlString = Common.getAddressAPICarrello();
+            HTTPDataHandler http = new HTTPDataHandler();
+            http.effettuaOrdine(urlString, idUtente);
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            pd.dismiss();
+        }
+
+    }
 
 }

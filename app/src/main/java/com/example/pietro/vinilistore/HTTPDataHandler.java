@@ -268,36 +268,10 @@ public class HTTPDataHandler {
         }
 
 
-    }
+    }   //crea un carrello per l' utente selezionato o aggiunge un prodotto se il carrello già esiste
 
-
-    public void PutHTTPData(String urlString, String newValue) {
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-            urlConnection.setRequestMethod("PUT");
-            urlConnection.setDoOutput(true);
-
-            byte[] out = newValue.getBytes(StandardCharsets.UTF_8);
-            int lenght = out.length;
-
-            urlConnection.setFixedLengthStreamingMode(lenght);
-            urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTP-8");
-            urlConnection.connect();
-            try (OutputStream os = urlConnection.getOutputStream()) {
-                os.write(out);
-            }
-            InputStream response = urlConnection.getInputStream();
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void effettuaOrdine(String urlString, String json) {
+    public void effettuaOrdine(String urlString,String idUtente) {
+        String query= "&q={\"idUtente\":\"" + idUtente + "\"}";
         try {
             URL url = new URL(urlString);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -305,10 +279,11 @@ public class HTTPDataHandler {
             urlConnection.setRequestMethod("DELATE");
             urlConnection.setDoOutput(true);
 
-            byte[] out = json.getBytes(StandardCharsets.UTF_8);
+            byte[] out = query.getBytes(StandardCharsets.UTF_8);
             int lenght = out.length;
 
             urlConnection.setFixedLengthStreamingMode(lenght);
+            urlConnection.setRequestProperty("data","{}");
             urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTP-8");
             urlConnection.connect();
             try (OutputStream os = urlConnection.getOutputStream()) {
