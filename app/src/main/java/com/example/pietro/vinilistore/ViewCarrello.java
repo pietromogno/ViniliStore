@@ -24,7 +24,7 @@ public class ViewCarrello extends AppCompatActivity {
 
     Button ordina;
     TextView totale;
-    String idUtente; //da passare con il boundle = "5b09a8dffb6fc0292d6ed802"
+    String idUtente;
     ListView lstView;
     Carrello c;
 
@@ -79,8 +79,10 @@ public class ViewCarrello extends AppCompatActivity {
             }
             totale.setText(tot + "€");  //se vuoto segna 0 euro
             pd.dismiss();
-            Toast t = Toast.makeText(getApplicationContext(), "Il tuo carrello è vuoto", Toast.LENGTH_SHORT);     //segnalo che il carrello è vuoto
-            t.show();
+            if(prodotti==null) {
+                Toast t = Toast.makeText(getApplicationContext(), "Il tuo carrello è vuoto", Toast.LENGTH_SHORT);     //segnalo che il carrello è vuoto
+                t.show();
+            }
         }
     }
 

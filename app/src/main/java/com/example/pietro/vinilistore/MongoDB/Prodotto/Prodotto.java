@@ -9,7 +9,7 @@ public class Prodotto implements Serializable {
 
     @SerializedName("_id")
     @Expose
-    private transient com.example.pietro.vinilistore.MongoDB.Prodotto.Id id;
+    private Id id;
 
     @SerializedName("nomeProdotto")
     @Expose

@@ -32,6 +32,8 @@ public class StoreHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_home);
+        Bundle bundleObj = getIntent().getExtras();
+        u = bundleObj.getStringArrayList("utente");
         lstView =findViewById(R.id.listProd);
         new GetData().execute(Common.getAddressAPIProdotti());
         lstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -39,8 +41,8 @@ public class StoreHome extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent dettaglio = new Intent(view.getContext(),DettaglioProdotto.class);
                 Bundle b = new Bundle();
-                //Prodotto prodotto = prodotti.get(i);
-                b.putSerializable("prodotti", prodotti.get(i));
+                b.putSerializable("prodotto", prodotti.get(i).getId().get$oid());
+                b.putSerializable("idUtente",u.get(3));
                 dettaglio.putExtras(b);
                 startActivity(dettaglio);
             }
@@ -82,8 +84,7 @@ public class StoreHome extends AppCompatActivity {
                 return true;
 
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
+
                 return super.onOptionsItemSelected(item);
 
         }
@@ -118,6 +119,5 @@ public class StoreHome extends AppCompatActivity {
             lstView.setAdapter(adapter);
             pd.dismiss();
         }
-
     }
 }

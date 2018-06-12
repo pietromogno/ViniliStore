@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 
@@ -59,7 +60,7 @@ public class HTTPDataHandler {
             e.printStackTrace();
         }
         return stream;
-    }
+    }   //per lettura prodotti sulle liste
 
     public Carrello GetHTTPDataCarrello(String urlString, String idUtente){
         stream="";
@@ -96,7 +97,7 @@ public class HTTPDataHandler {
             e.printStackTrace();
         }
         return carrello;
-    }
+    }   //per prendere un carrello esistente
 
     public static Prodotto GetProdottoFromID(String urlString, String idProdotto){
         Prodotto p = new Prodotto();
@@ -132,7 +133,7 @@ public class HTTPDataHandler {
             e.printStackTrace();
         }
         return p;
-    }
+    }   //IDprodotto restituisce un oggetto Prodotto, usato nel carrello e nell dettaglio prodotto
 
     public void PostHTTPData (String urlString,String json) throws IOException {
         String urlParameters = json;
@@ -152,8 +153,7 @@ public class HTTPDataHandler {
         }
         int i = conn.getResponseCode();
         System.out.println(i);
-    }
-
+    }   //per registrazione
 
     public Utente getPersonaFromEmail (String urlString , String query) {
         Utente utente=new Utente();
@@ -188,6 +188,33 @@ public class HTTPDataHandler {
             e.printStackTrace();
         }
         return utente;
+    }   //data l' email restituisce un oggetto utente , per area personale
+
+    public void compiniCarrello(String urlString, String idUtente ,String idProdotto) throws IOException {
+        if(GetHTTPDataCarrello(urlString,idUtente)!=null){  //se l' utente ha già un carrello aggiungo in coda l' idProdotto
+
+        }else{  //se l' utente non ha già un carrello creo un nuovo carrello a nome di idUtente nel DB e carico il primo prodotto
+            Date d = new Date();
+            String urlParameters = "{\"idUtente\" : \""+idUtente+"\",\"data\" : \""+d+"\",\"idProdotti\" : [\""+idProdotto+"\"]}";
+            byte[] postData = urlParameters.getBytes( StandardCharsets.UTF_8 );
+            String request = urlString;
+            URL url = new URL( request );
+            HttpURLConnection conn= (HttpURLConnection) url.openConnection();
+            conn.setDoOutput( true );
+            conn.setInstanceFollowRedirects( false );
+            conn.setRequestMethod( "POST" );
+            conn.setRequestProperty("data",urlParameters);
+            conn.setRequestProperty( "Content-Type", "application/json");
+            conn.setRequestProperty( "charset", "utf-8");
+            conn.setUseCaches( false );
+            try( DataOutputStream wr = new DataOutputStream( conn.getOutputStream())) {
+                wr.write( postData );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            int i = conn.getResponseCode();
+            System.out.println(i);
+        }
     }
 
 
@@ -218,7 +245,7 @@ public class HTTPDataHandler {
         }
     }
 
-    public void  DeleteHTTPData (String urlString,String json){
+    public void  effettuaOrdine (String urlString,String json){
         try{
             URL url = new URL(urlString);
             HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
