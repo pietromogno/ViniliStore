@@ -1,8 +1,12 @@
 package com.example.pietro.vinilistore;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pietro.vinilistore.MongoDB.Carrello.Carrello;
@@ -28,6 +33,9 @@ public class StoreHome extends AppCompatActivity {
     ListView lstView;
     List<Prodotto> prodotti ;
     ArrayList<String> u;
+    DrawerLayout mDrawerLayout;
+    ActionBarDrawerToggle mToggle;
+    TextView grunge;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +43,10 @@ public class StoreHome extends AppCompatActivity {
         Bundle bundleObj = getIntent().getExtras();
         u = bundleObj.getStringArrayList("utente");
         lstView =findViewById(R.id.listProd);
-        new GetData().execute(Common.getAddressAPIProdotti());
+        Bundle bObj=getIntent().getExtras();
+        String genere=bObj.getString("genere");
+        if(genere==null)genere="";
+        new GetData().execute(Common.getAddressAPIProdotti()+genere);
         lstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -47,7 +58,83 @@ public class StoreHome extends AppCompatActivity {
                 startActivity(dettaglio);
             }
         });
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mToggle=new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
+        mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        mDrawerLayout.closeDrawers();
+
+                        switch (menuItem.getItemId()) {
+                            case R.id.nav_home:
+                                Intent home = new Intent(getApplicationContext(), StoreHome.class);
+                                Bundle b = new Bundle();
+                                Bundle bb = new Bundle();
+                                bb.putSerializable("utente", u);
+                                home.putExtras(bb);
+                                startActivity(home);
+                                finish();
+                                return true;
+                            case R.id.nav_grunge:
+                                Intent grungeHome = new Intent(getApplicationContext(), StoreHome.class);
+                                b = new Bundle();
+                                b.putString("genere", "&q={\"genere\":\"Grunge\"}");
+                                grungeHome.putExtras(b);
+                                bb = new Bundle();
+                                bb.putSerializable("utente", u);
+                                grungeHome.putExtras(bb);
+                                startActivity(grungeHome);
+                                finish();
+                                return true;
+                            case R.id.nav_rock:
+                                Intent rockHome = new Intent(getApplicationContext(), StoreHome.class);
+                                b = new Bundle();
+                                b.putString("genere", "&q={\"genere\":\"Rock\"}");
+                                rockHome.putExtras(b);
+                                bb = new Bundle();
+                                bb.putSerializable("utente", u);
+                                rockHome.putExtras(bb);
+                                startActivity(rockHome);
+                                finish();
+                                return true;
+                            case R.id.nav_blues:
+                                Intent bluesHome = new Intent(getApplicationContext(), StoreHome.class);
+                                b = new Bundle();
+                                b.putString("genere", "&q={\"genere\":\"Blues\"}");
+                                bluesHome.putExtras(b);
+                                bb = new Bundle();
+                                bb.putSerializable("utente", u);
+                                bluesHome.putExtras(bb);
+                                startActivity(bluesHome);
+                                finish();
+                                return true;
+                            case R.id.nav_metal:
+                                Intent metalHome = new Intent(getApplicationContext(), StoreHome.class);
+                                b = new Bundle();
+                                b.putString("genere", "&q={\"genere\":\"Metal\"}");
+                                metalHome.putExtras(b);
+                                bb = new Bundle();
+                                bb.putSerializable("utente", u);
+                                metalHome.putExtras(bb);
+                                startActivity(metalHome);
+                                finish();
+                                return true;
+                            default:
+                        }
+                    return true;}
+                    });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -57,10 +144,10 @@ public class StoreHome extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {   //gestione pulsanti action bar
         switch (item.getItemId()) {
 
-            case R.id.action_cart:
+            case R.id.action_cart:      //carrello
                 Bundle bundleObj = getIntent().getExtras();
                 u = bundleObj.getStringArrayList("utente");
 
@@ -73,7 +160,7 @@ public class StoreHome extends AppCompatActivity {
 
                     return true;
 
-            case R.id.action_profile:
+            case R.id.action_profile:   //profilo
                 Intent personal = new Intent(getApplicationContext(),AreaPersonale.class);
                 Bundle bundleObject = getIntent().getExtras();
                 u = bundleObject.getStringArrayList("utente");
@@ -84,6 +171,9 @@ public class StoreHome extends AppCompatActivity {
                 return true;
 
             default:
+                if(mToggle.onOptionsItemSelected(item)){    //apri navigationDrawer
+                    return true;
+                }
 
                 return super.onOptionsItemSelected(item);
 
@@ -91,7 +181,7 @@ public class StoreHome extends AppCompatActivity {
     }
 
 
-    class GetData extends AsyncTask<String,Void,String>{
+    class GetData extends AsyncTask<String,Void,String>{        //caricamento del catalogo
         ProgressDialog pd= new ProgressDialog(StoreHome.this);
         @Override
         protected void onPreExecute(){
