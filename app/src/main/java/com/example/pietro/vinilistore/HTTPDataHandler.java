@@ -8,29 +8,23 @@ import com.example.pietro.vinilistore.MongoDB.Utente.Utente;
 import com.google.gson.Gson;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
+import java.util.Scanner;
 
 public class HTTPDataHandler {
 
@@ -311,31 +305,29 @@ public class HTTPDataHandler {
             File file = new File(root, fileName);
 
             FileWriter writer = new FileWriter(file, true);
-            writer.append(formatter.format(now) + " " + totale + "\n");
+            writer.append(formatter.format(now) + "\t" + totale + "\n");
             writer.flush();
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }   //scrive un file se non già esistente lo storico ordini
 
     public List<String> leggiStoricoOrdini(String idUtente) throws IOException {
-        List<String> ris = null;
+        List<String> ris = new ArrayList<>();
         FileReader f;
         File root = Environment.getExternalStorageDirectory();
+        File dir = new File(root.getAbsolutePath());
+
         String fileName = idUtente + ".txt";
-        File dir = new File(root.getAbsolutePath() + "/log");
         File file = new File(dir, fileName);
-        f = new FileReader(file);
 
-        BufferedReader b;
-        b = new BufferedReader(f);
+        Scanner sc = new Scanner(file);
 
-        while (b.readLine() != null) {
-            ris.add(b.readLine());
+        while (sc.hasNextLine()) {
+            ris.add(sc.nextLine());
         }
-
         return ris;
-    }
+    }   //mostra lo storico ordini del utente
 }
 
