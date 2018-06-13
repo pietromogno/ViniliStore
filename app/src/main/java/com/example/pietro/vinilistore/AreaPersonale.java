@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class AreaPersonale extends AppCompatActivity {
 
     TextView nome,via,email;
-    Button storico,modPsw;
+    Button storico;
 
 
     @Override

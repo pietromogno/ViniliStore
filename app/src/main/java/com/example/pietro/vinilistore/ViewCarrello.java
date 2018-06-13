@@ -40,8 +40,6 @@ public class ViewCarrello extends AppCompatActivity {
         Bundle bundleObject = getIntent().getExtras();
         idUtente = bundleObject.getString("idUtente");
         new GetData().execute(Common.getAddressAPICarrello());
-
-
     }
 
 
@@ -138,6 +136,8 @@ public class ViewCarrello extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            new GetData().execute(Common.getAddressAPICarrello());
+            Toast.makeText(getApplicationContext(),"Ordine eseguito correttamente",Toast.LENGTH_LONG).show();
             pd.dismiss();
         }
 
