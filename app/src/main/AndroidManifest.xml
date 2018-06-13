@@ -24,7 +24,8 @@
         <activity android:name=".StoreHome" />
         <activity android:name=".DettaglioProdotto" />
         <activity android:name=".ViewCarrello" />
-        <activity android:name=".AreaPersonale"></activity>
+        <activity android:name=".AreaPersonale" />
+        <activity android:name=".StoricoOrdini"></activity>
     </application>
 
 </manifest>

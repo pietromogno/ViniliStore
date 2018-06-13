@@ -1,7 +1,9 @@
 package com.example.pietro.vinilistore;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,8 +20,8 @@ public class AreaPersonale extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_area_personale);
         Bundle bundleObject = getIntent().getExtras();
-        ArrayList<String> datiUtente = bundleObject.getStringArrayList("utente");
-
+        final ArrayList<String> datiUtente = bundleObject.getStringArrayList("utente");
+        storico=findViewById(R.id.btnStorico);
         nome=findViewById(R.id.personal_name);
         via=findViewById(R.id.personal_via);
         email=findViewById(R.id.personal_email);
@@ -28,6 +30,15 @@ public class AreaPersonale extends AppCompatActivity {
         email.setText(datiUtente.get(1));
         via.setText(datiUtente.get(2));
 
-
+        storico.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent storicoOrd = new Intent(view.getContext(), StoricoOrdini.class);
+                Bundle b = new Bundle();
+                b.putString("idUtente",datiUtente.get(3));
+                storicoOrd.putExtras(b);
+                startActivity(storicoOrd);
+            }
+        });
     }
 }
