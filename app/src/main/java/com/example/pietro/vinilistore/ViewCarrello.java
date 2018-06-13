@@ -131,6 +131,7 @@ public class ViewCarrello extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            http.scriviSuStoricoOrdini(idUtente,totale.getText().toString());
             return "";
         }
 

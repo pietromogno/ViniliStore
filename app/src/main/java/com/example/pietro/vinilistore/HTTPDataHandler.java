@@ -1,5 +1,7 @@
 package com.example.pietro.vinilistore;
 
+import android.os.Environment;
+
 import com.example.pietro.vinilistore.MongoDB.Carrello.Carrello;
 import com.example.pietro.vinilistore.MongoDB.Prodotto.Prodotto;
 import com.example.pietro.vinilistore.MongoDB.Utente.Utente;
@@ -10,7 +12,10 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,7 +26,9 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 
@@ -223,7 +230,6 @@ public class HTTPDataHandler {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
             String request = urlString;
             URL url = new URL(request + query + "u=true");
@@ -266,11 +272,9 @@ public class HTTPDataHandler {
             int i = conn.getResponseCode();
             System.out.println(i);
         }
-
-
     }   //crea un carrello per l' utente selezionato o aggiunge un prodotto se il carrello già esiste
 
-    public void effettuaOrdine(String urlString, String idUtente) throws IOException {      //svuota il carrello dal db, tale record non viene del tutto cancellato, se possibile da migliorare. // al termine dell' ordine viene creato se non esiste un file di log nominato idUtente con data e totale dell' ordine
+    public void effettuaOrdine(String urlString, String idUtente) throws IOException {
         String query = "&q={\"idUtente\":\"" + idUtente + "\"}";
         String urlParameters = "{}";
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
@@ -291,6 +295,47 @@ public class HTTPDataHandler {
         }
         int i = conn.getResponseCode();
         System.out.println(i);
+    }   //svuota il carrello dal db, tale record non viene del tutto cancellato, se possibile da migliorare. // al termine dell' ordine viene creato se non esiste un file di log nominato idUtente con data e totale dell' ordine
+
+
+    public void scriviSuStoricoOrdini(String idUtente, String totale) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd_MM_yyyy");
+        Date now = new Date();
+        String fileName = idUtente + ".txt";
+        try {
+            File root = Environment.getExternalStorageDirectory();
+            File dir = new File(root.getAbsolutePath() + "/log");
+            if (!dir.exists()) {
+                root.mkdirs();
+            }
+            File file = new File(root, fileName);
+
+            FileWriter writer = new FileWriter(file, true);
+            writer.append(formatter.format(now) + " " + totale + "\n");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    public List<String> leggiStoricoOrdini(String idUtente) throws IOException {
+        List<String> ris = null;
+        FileReader f;
+        File root = Environment.getExternalStorageDirectory();
+        String fileName = idUtente + ".txt";
+        File dir = new File(root.getAbsolutePath() + "/log");
+        File file = new File(dir, fileName);
+        f = new FileReader(file);
+
+        BufferedReader b;
+        b = new BufferedReader(f);
+
+        while (b.readLine() != null) {
+            ris.add(b.readLine());
+        }
+
+        return ris;
+    }
 }
+
