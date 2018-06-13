@@ -16,6 +16,7 @@ import com.example.pietro.vinilistore.MongoDB.Prodotto.Prodotto;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +91,7 @@ public class ViewCarrello extends AppCompatActivity {
             ordina.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new OrdinaCarrello();
+                    new OrdinaCarrello().execute(Common.getAddressAPICarrello());
                 }
             });
         }
@@ -123,9 +124,13 @@ public class ViewCarrello extends AppCompatActivity {
         @Override
         protected String doInBackground(String... args) {
             String stream = null;
-            String urlString = Common.getAddressAPICarrello();
+            String urlString = args[0];
             HTTPDataHandler http = new HTTPDataHandler();
-            http.effettuaOrdine(urlString, idUtente);
+            try {
+                http.effettuaOrdine(urlString, idUtente);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return "";
         }
 

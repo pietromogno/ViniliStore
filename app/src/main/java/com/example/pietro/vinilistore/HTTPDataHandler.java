@@ -215,8 +215,8 @@ public class HTTPDataHandler {
                     stream = sb.toString();
                     String subStream = stream.substring(1, stream.length() - 2);
                     urlConnection.disconnect();
-                    urlParameters = subStream.substring(0, subStream.length()-3);
-                    urlParameters+= "\",\""+ idProdotto + "\"]}"; //aggiungo in coda in nuovo prodotto
+                    urlParameters = subStream.substring(0, subStream.length() - 3);
+                    urlParameters += "\",\"" + idProdotto + "\"]}"; //aggiungo in coda in nuovo prodotto
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -226,7 +226,7 @@ public class HTTPDataHandler {
 
             byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
             String request = urlString;
-            URL url = new URL(request+query+"u=true");
+            URL url = new URL(request + query + "u=true");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setInstanceFollowRedirects(false);
@@ -270,33 +270,27 @@ public class HTTPDataHandler {
 
     }   //crea un carrello per l' utente selezionato o aggiunge un prodotto se il carrello già esiste
 
-    public void effettuaOrdine(String urlString,String idUtente) {
-        String query= "&q={\"idUtente\":\"" + idUtente + "\"}";
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-            urlConnection.setRequestMethod("DELATE");
-            urlConnection.setDoOutput(true);
-
-            byte[] out = query.getBytes(StandardCharsets.UTF_8);
-            int lenght = out.length;
-
-            urlConnection.setFixedLengthStreamingMode(lenght);
-            urlConnection.setRequestProperty("data","{}");
-            urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTP-8");
-            urlConnection.connect();
-            try (OutputStream os = urlConnection.getOutputStream()) {
-                os.write(out);
-            }
-            InputStream response = urlConnection.getInputStream();
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+    public void effettuaOrdine(String urlString, String idUtente) throws IOException {      //svuota il carrello dal db, tale record non viene del tutto cancellato, se possibile da migliorare. // al termine dell' ordine viene creato se non esiste un file di log nominato idUtente con data e totale dell' ordine
+        String query = "&q={\"idUtente\":\"" + idUtente + "\"}";
+        String urlParameters = "{}";
+        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+        String request = urlString;
+        URL url = new URL(request + query + "u=true");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setInstanceFollowRedirects(false);
+        conn.setRequestMethod("PUT");
+        conn.setRequestProperty("data", urlParameters);
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("charset", "utf-8");
+        conn.setUseCaches(false);
+        try (DataOutputStream wr = new DataOutputStream(conn.getOutputStream())) {
+            wr.write(postData);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        int i = conn.getResponseCode();
+        System.out.println(i);
     }
-
 
 }
