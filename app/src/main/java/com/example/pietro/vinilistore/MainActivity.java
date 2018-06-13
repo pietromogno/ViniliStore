@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 b.putSerializable("utente",dati); // porto nella home page l' utente loggato
                 home.putExtras(b);
                 startActivity(home);
+                finish();
             }
         }
     }

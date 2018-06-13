@@ -8,4 +8,6 @@
     <string name="textview">TextView</string>
     <string name="todo">TODO</string>
     <string name="aggiungi_al_carrello">Aggiungi al Carrello</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

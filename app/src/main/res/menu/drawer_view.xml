@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+        <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_home"
+                android:icon="@drawable/ic_library_music_black_24dp"
+                android:title="Tutto il Catalogo" />
+            <item
+                android:id="@+id/nav_grunge"
+                android:icon="@drawable/ic_library_music_black_24dp"
+                android:title="Grunge" />
+            <item
+                android:id="@+id/nav_rock"
+                android:icon="@drawable/ic_library_music_black_24dp"
+                android:title="Rock" />
+            <item
+                android:id="@+id/nav_blues"
+                android:icon="@drawable/ic_library_music_black_24dp"
+                android:title="Blues" />
+            <item
+                android:id="@+id/nav_metal"
+                android:icon="@drawable/ic_library_music_black_24dp"
+                android:title="Metal" />
+        </group>
+    </menu>
