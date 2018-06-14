@@ -107,6 +107,17 @@ public class StoreHome extends AppCompatActivity {
                                 startActivity(rockHome);
                                 finish();
                                 return true;
+                            case R.id.nav_punk:
+                                Intent punkHome = new Intent(getApplicationContext(), StoreHome.class);
+                                b = new Bundle();
+                                b.putString("genere", "&q={\"genere\":\"Punk\"}");
+                                punkHome.putExtras(b);
+                                bb = new Bundle();
+                                bb.putSerializable("utente", u);
+                                punkHome.putExtras(bb);
+                                startActivity(punkHome);
+                                finish();
+                                return true;
                             case R.id.nav_blues:
                                 Intent bluesHome = new Intent(getApplicationContext(), StoreHome.class);
                                 b = new Bundle();
@@ -186,7 +197,7 @@ public class StoreHome extends AppCompatActivity {
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            pd.setTitle("Caricamento...");
+            pd.setTitle("Caricamento catalogo...");
             pd.show();
         }
 

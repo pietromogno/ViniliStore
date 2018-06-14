@@ -45,10 +45,13 @@ public class DettaglioProdotto extends AppCompatActivity {
     }
 
 
-    class GetData extends AsyncTask<String, Void, String> {
+    class GetData extends AsyncTask<String, Void, String> {     //carico dettagli prodotto
+        ProgressDialog pd= new ProgressDialog(DettaglioProdotto.this);
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pd.setTitle("Caricamento...");
+            pd.show();
         }
 
         @Override
@@ -64,6 +67,7 @@ public class DettaglioProdotto extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            pd.dismiss();
             Bundle bundle = getIntent().getExtras();
             idUtente = bundle.getString("idUtente");
 
@@ -96,7 +100,7 @@ public class DettaglioProdotto extends AppCompatActivity {
         }
     }
 
-    class toCart extends AsyncTask<String, Void, String> {
+    class toCart extends AsyncTask<String, Void, String> {      //aggiungi al carrello
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
