@@ -13,7 +13,7 @@
             android:id="@+id/imageView3"
             android:layout_width="232dp"
             android:layout_height="131dp"
-            app:srcCompat="@drawable/ico_vinilistore" />
+            app:srcCompat="@drawable/ic_logo" />
 
     <TextView
         android:layout_width="match_parent"
