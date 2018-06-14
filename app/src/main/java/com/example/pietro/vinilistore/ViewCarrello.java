@@ -82,16 +82,17 @@ public class ViewCarrello extends AppCompatActivity {
             }
             totale.setText(tot + "€");  //se vuoto segna 0 euro
             pd.dismiss();
-            if(prodotti==null) {
+            if(tot==0) {
                 Toast t = Toast.makeText(getApplicationContext(), "Il tuo carrello è vuoto", Toast.LENGTH_SHORT);     //segnalo che il carrello è vuoto
                 t.show();
+            }else {
+                ordina.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new OrdinaCarrello().execute(Common.getAddressAPICarrello());
+                    }
+                });
             }
-            ordina.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    new OrdinaCarrello().execute(Common.getAddressAPICarrello());
-                }
-            });
         }
     }
 
