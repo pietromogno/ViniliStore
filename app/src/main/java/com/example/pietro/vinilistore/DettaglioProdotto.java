@@ -45,7 +45,7 @@ public class DettaglioProdotto extends AppCompatActivity {
     }
 
 
-    class GetData extends AsyncTask<String, Void, String> {     //carico dettagli prodotto
+    class GetData extends AsyncTask<String, Void, String> {
         ProgressDialog pd= new ProgressDialog(DettaglioProdotto.this);
         @Override
         protected void onPreExecute() {
@@ -98,9 +98,9 @@ public class DettaglioProdotto extends AppCompatActivity {
             });
 
         }
-    }
+    }   //carico dettagli prodotto
 
-    class toCart extends AsyncTask<String, Void, String> {      //aggiungi al carrello
+    class toCart extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -130,5 +130,5 @@ public class DettaglioProdotto extends AppCompatActivity {
             }
         }
 
-    }
+    }      //aggiungi al carrello
 }

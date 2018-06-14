@@ -155,7 +155,7 @@ public class StoreHome extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {   //gestione pulsanti action bar
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
             case R.id.action_cart:      //carrello
@@ -189,10 +189,10 @@ public class StoreHome extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
-    }
+    }   //gestione pulsanti action bar
 
 
-    class GetData extends AsyncTask<String,Void,String>{        //caricamento del catalogo
+    class GetData extends AsyncTask<String,Void,String>{
         ProgressDialog pd= new ProgressDialog(StoreHome.this);
         @Override
         protected void onPreExecute(){
@@ -220,5 +220,5 @@ public class StoreHome extends AppCompatActivity {
             lstView.setAdapter(adapter);
             pd.dismiss();
         }
-    }
+    }        //caricamento del catalogo
 }
