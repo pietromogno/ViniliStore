@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/titolo"
-        android:layout_width="258dp"
+        android:layout_width="218dp"
         android:layout_height="37dp"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/imageView" />

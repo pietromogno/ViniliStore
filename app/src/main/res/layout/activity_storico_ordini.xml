@@ -26,8 +26,8 @@
 
     <ListView
         android:id="@+id/lstStorico"
-        android:layout_width="395dp"
-        android:layout_height="539dp"
+        android:layout_width="343dp"
+        android:layout_height="450dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
