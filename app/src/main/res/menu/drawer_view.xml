@@ -25,5 +25,9 @@
                 android:id="@+id/nav_metal"
                 android:icon="@drawable/ic_library_music_black_24dp"
                 android:title="Metal" />
+            <item
+                android:id="@+id/nav_sale"
+                android:icon="@drawable/ic_money_off_black_24dp"
+                android:title="Prodotti scontati"/>
         </group>
     </menu>

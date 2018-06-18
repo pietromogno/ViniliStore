@@ -140,6 +140,19 @@ public class StoreHome extends AppCompatActivity {
                                 startActivity(metalHome);
                                 finish();
                                 return true;
+
+                            case R.id.nav_sale:
+                                Intent saleHome = new Intent(getApplicationContext(), StoreHome.class);
+                                b = new Bundle();
+                                b.putString("genere", "&q={\"sconto\":true}");
+                                saleHome.putExtras(b);
+                                bb = new Bundle();
+                                bb.putSerializable("utente", u);
+                                saleHome.putExtras(bb);
+                                startActivity(saleHome);
+                                finish();
+                                return true;
+
                             default:
                         }
                     return true;}
