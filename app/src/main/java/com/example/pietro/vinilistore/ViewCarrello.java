@@ -1,9 +1,13 @@
 package com.example.pietro.vinilistore;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -41,6 +45,30 @@ public class ViewCarrello extends AppCompatActivity {
         idUtente = bundleObject.getString("idUtente");
         new GetData().execute(Common.getAddressAPICarrello());
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_carrello,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_delate:      //cancella carrello
+                new CancellaCarrello().execute(Common.getAddressAPICarrello());
+                return true;
+
+            default:
+
+                return super.onOptionsItemSelected(item);
+
+        }
+    }   //gestione pulsanti action bar
+
+
 
 
     class GetData extends AsyncTask<String, Void, String> {
@@ -144,4 +172,38 @@ public class ViewCarrello extends AppCompatActivity {
 
     }
 
+    class CancellaCarrello extends AsyncTask<String, Void, String> {
+
+        ProgressDialog pd = new ProgressDialog(ViewCarrello.this);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd.setTitle("Cancello...");
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(String... args) {
+            String stream = null;
+            String urlString = args[0];
+            HTTPDataHandler http = new HTTPDataHandler();
+            try {
+                http.effettuaOrdine(urlString, idUtente);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            http.scriviSuStoricoOrdini(idUtente,totale.getText().toString());
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            new GetData().execute(Common.getAddressAPICarrello());
+            Toast.makeText(getApplicationContext(),"Cancellato",Toast.LENGTH_LONG).show();
+            pd.dismiss();
+        }
+
+    }
 }
